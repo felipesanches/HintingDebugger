@@ -11,7 +11,9 @@
 #include FT_MODULE_H
 #include "RasterMessages.h"
 
-int verbose = 0;
+int verbose;
+int pt_size;
+char* filename;
 int diagnostics(FT_DiagnosticsMsgId  msgId,
                 const char* const    opcode,
                 int                  range_base,
@@ -23,10 +25,18 @@ int diagnostics(FT_DiagnosticsMsgId  msgId,
     for (int i=0; msgs[i].id != -1; i++){
         if (msgs[i].id == msgId){
             if (verbose){
-                printf("\t\t[%04X: %s] '%s': %s (range_base: %d is_composite: %d callTop: %d opc: %d, start: %d)\n",
-                       IP, opcode, msgs[i].title, msgs[i].message, range_base, is_composite, callTop, opc, start);
+                printf("%s (%d pt):\n", filename, pt_size);
+                printf("\trange_base: %d\n", range_base);
+                printf("\tis_composite: %d\n", is_composite);
+                printf("\tcallTop: %d\n", callTop);
+                printf("\topc: %d\n", opc);
+                printf("\tstart: %d\n", start);
+                printf("\tIP: %04X\n", IP);
+                printf("\topcode: %s\n", opcode);
+                printf("\ttitle: %s\n", msgs[i].title);
+                printf("\tdescription: \"%s\"\n\n", msgs[i].message);
             } else {
-                printf("%s: %s\n", msgs[i].title, msgs[i].message);
+                printf("%s (%d pt): \"%s\" at IP=0x%04X (%s)\n", filename, pt_size, msgs[i].title, IP, opcode);
             }
             return 0;
         }
@@ -40,8 +50,8 @@ void run_rasterization_tests (FT_Library   library,
                               const char*  interpreter_version,
                               FT_Int32     load_flags){
     FT_Property_Set( library, "truetype", "interpreter-version", interpreter_version );
-    for (int pt_size = 4; pt_size < 72; pt_size++){
-        if (verbose) printf("\t Testing size = %d\n", pt_size);
+    for (pt_size = 4; pt_size < 72; pt_size++){
+        if (verbose) printf("[Testing size = %d]\n\n", pt_size);
         FT_Set_Char_Size(
             face,    /* handle to face object           */
             pt_size, /* char_width in 1/64th of points  */
@@ -70,7 +80,8 @@ int main(int argc, char** argv){
         //
         // TODO: use argparse to enable an optional --verbose mode.
         // For now it is disabled so that only actual errors are output.
-        verbose = 0;
+        verbose = 1;
+        filename = argv[1];
 
 	if (FT_Init_FreeType( &library )){
 		fprintf(stderr, "An error occurred during the freetype library initialization...\n\n");
@@ -78,7 +89,7 @@ int main(int argc, char** argv){
 	}
 
 	if ( FT_New_Face( library,
-                          argv[1],
+                          filename,
                           0, &face ) ){
 		fprintf(stderr, "An error occurred while attempting to load the fontface...\n\n");
 		return -1;
