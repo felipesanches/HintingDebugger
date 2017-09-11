@@ -9,18 +9,25 @@
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 #include FT_MODULE_H
+#include "RasterMessages.h"
 
-int diagnostics(const char*        message,
-                const char* const  opcode,
-                int                range_base,
-                int                is_composite,
-                int                IP,
-                int                callTop,
-                int                opc,
-                int                start){
-    printf("\t\t[%04X: %s] '%s' range_base: %d is_composite: %d callTop: %d opc: %d, start: %d\n",
-           IP, opcode, message, range_base, is_composite, callTop, opc, start);
-    return 0;
+int diagnostics(FT_DiagnosticsMsgId  msgId,
+                const char* const    opcode,
+                int                  range_base,
+                int                  is_composite,
+                int                  IP,
+                int                  callTop,
+                int                  opc,
+                int                  start){
+    for (int i=0; msgs[i].id != -1; i++){
+        if (msgs[i].id == msgId){
+            printf("\t\t[%04X: %s] '%s' range_base: %d is_composite: %d callTop: %d opc: %d, start: %d\n",
+                   IP, opcode, msgs[i].message, range_base, is_composite, callTop, opc, start);
+            return 0;
+        }
+    }
+    //otherwise
+    return -1;
 };
 
 void run_rasterization_tests (FT_Library   library,

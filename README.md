@@ -1,5 +1,5 @@
 # Overview
-This is a minimalistic client for the proposed freetype diagnostics API as discussed at http://lists.gnu.org/archive/html/freetype-devel/2017-09/msg00011.html
+This is a minimalist C client for the proposed freetype diagnostics API as discussed at http://lists.gnu.org/archive/html/freetype-devel/2017-09/msg00011.html
 
 This code requires a custom build of freetype. The corresponding library source code is available at:
 https://github.com/felipesanches/freetype2/tree/2.6.4.diagnostics
