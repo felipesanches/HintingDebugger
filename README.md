@@ -19,3 +19,6 @@ Then build this example client and run it:
     make
     LD_PRELOAD=~/custom_ft/lib/libfreetype.so ./HintingDebugger ~/gfonts/ofl/nunito/Nunito-Regular.ttf
 
+# Verbosity
+
+This program follows the UNIX philosiphy of "silence == success", meaning that only error messages are printed to stdout, unless the user explicitly asks for verbosity. (But the --verbose flag is *not yet* implemented...)
