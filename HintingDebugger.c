@@ -80,7 +80,7 @@ int main(int argc, char** argv){
         //
         // TODO: use argparse to enable an optional --verbose mode.
         // For now it is disabled so that only actual errors are output.
-        verbose = 1;
+        verbose = 0;
         filename = argv[1];
 
 	if (FT_Init_FreeType( &library )){
