@@ -142,7 +142,7 @@ DiagnosticsMessage msgs[] = {
     "There is an attempt to create a user-defined instruction that is already defined by the rasterizer."
   },
   {
-    FT_RASTER_ERROR_INVALID_FLAG,
+    FT_RASTER_ERROR_INVALID_COMPENSATION_FLAG,
     "Invalid Instruction flag.",
     "For the instructions MDRP, MIRP, ROUND, and NROUND, the value 3 has been used as distance type for engine characteristic compensation. For these instructions, two bits of the instruction flags are designated for the distance type for engine characteristic compensation. Valid values are 0 for Gray, 1 for Black and 2 for White."
   },
