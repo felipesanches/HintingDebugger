@@ -22,11 +22,23 @@ int diagnostics(FT_DiagnosticsMsgId  msgId,
                 int                  callTop,
                 int                  opc,
                 int                  start){
+    const char* range_names[] = {
+        "NONE",
+        "FONT PROGRAM",
+        "CONTROL VALUE TABLE",
+        "GLYPH PROGRAM"
+    };
+    const char* range_names_short[] = {
+        "(?)",
+        "FPGM",
+        "CVT",
+        "GLYPH"
+    };
     for (int i=0; msgs[i].id != -1; i++){
         if (msgs[i].id == msgId){
             if (verbose){
                 printf("%s (%d pt):\n", filename, pt_size);
-                printf("\trange_base: %d\n", range_base);
+                printf("\trange_base: %s\n", range_names[range_base & 3]);
                 printf("\tis_composite: %d\n", is_composite);
                 printf("\tcallTop: %d\n", callTop);
                 printf("\topc: %d\n", opc);
@@ -36,7 +48,13 @@ int diagnostics(FT_DiagnosticsMsgId  msgId,
                 printf("\ttitle: %s\n", msgs[i].title);
                 printf("\tdescription: \"%s\"\n\n", msgs[i].message);
             } else {
-                printf("%s (%d pt): \"%s\" at IP=0x%04X (%s)\n", filename, pt_size, msgs[i].title, IP, opcode);
+                printf("%s (%d pt): \"%s\" at %s, IP=0x%04X (%s)\n",
+                       filename,
+                       pt_size,
+                       msgs[i].title,
+                       range_names_short[range_base & 3],
+                       IP,
+                       opcode);
             }
             return 0;
         }
