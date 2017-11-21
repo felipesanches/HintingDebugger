@@ -8,8 +8,10 @@ https://github.com/felipesanches/freetype2/tree/2.6.4.diagnostics
 
 Build and install the custom freetype library:
 
+    mkdir /home/username/custom_ft
     cd freetype2
-    CFLAGS=-DFT_DIAGNOSTICS ./configure --prefix=~/custom_ft
+    ./autogen.sh
+    CFLAGS=-DFT_DIAGNOSTICS ./configure --prefix=/home/username/custom_ft
     make
     make install
 
